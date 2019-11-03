@@ -83,8 +83,8 @@ albums.delete = function (req, res) {
         .write()
 
     if (result) {        
-        console.log('RESULT', JSON.stringify(result))
-        res.send(result)
+        console.log('RESULT', JSON.stringify(result[0]))
+        res.send(result[0])
     } else {
         res.status(500).send('<pre>500 General Error</pre>')    
     }
