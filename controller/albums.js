@@ -78,4 +78,20 @@ albums.midUpload = function (req, res, next) {
     }
 }
 
+albums.delete = function (req, res) {
+    console.log(req.method, req.url)
+
+    const result = req.db
+        .get('albums')
+        .remove({ id: req.params.id })
+        .write()
+
+    if (result) {        
+        console.log('RESULT', JSON.stringify(result))
+        res.send(result)
+    } else {
+        res.status(500).send('<pre>500 General Error</pre>')    
+    }
+}
+
 module.exports = albums

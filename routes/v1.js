@@ -12,6 +12,7 @@ Router.get('/albums/:id', albumsController.getById)
 Router.post('/albums',
     [albumsController.midValidate, albumsController.midUpload], 
     albumsController.insert) 
+Router.delete('/albums/:id', albumsController.delete)
 
 // All router here
 module.exports = Router
