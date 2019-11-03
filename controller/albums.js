@@ -136,4 +136,16 @@ albums.put = function (req, res) {
     }
 }
 
+albums.midIsExist = function (req, res, next) {
+    const data = req.db
+        .get('albums')
+        .find({ id: req.params.id })
+        .value()
+    if (data) {
+        next()
+    } else {
+        res.status(404).send('<pre>404 not found</pre>')
+    }
+}    
+
 module.exports = albums

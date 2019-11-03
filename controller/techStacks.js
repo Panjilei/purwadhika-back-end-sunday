@@ -139,4 +139,16 @@ techStacks.put = function (req, res) {
     }
 }
 
+techStacks.midIsExist = function (req, res, next) {
+    const data = req.db
+        .get('techStacks')
+        .find({ id: req.params.id })
+        .value()
+    if (data) {
+        next()
+    } else {
+        res.status(404).send('<pre>404 not found</pre>')
+    }
+}    
+
 module.exports = techStacks
