@@ -3,14 +3,12 @@ const shortid = require('shortid')
 let albums = {}
 
 albums.getAll = function (req, res) {
-    console.log('GET', req.url)
     const result = req.db.get('albums').value()
     console.log(JSON.stringify(result))
     res.send(result)
 }
 
 albums.getById = function (req, res) {
-    console.log('GET', req.url)
 
     const result = req.db
         .get('albums')
@@ -27,7 +25,6 @@ albums.getById = function (req, res) {
 }
 
 albums.insert = function (req, res) {
-    console.log('GET', req.url)
 
     const data = {
         id: shortid.generate(),
@@ -79,8 +76,7 @@ albums.midUpload = function (req, res, next) {
 }
 
 albums.delete = function (req, res) {
-    console.log(req.method, req.url)
-
+   
     const result = req.db
         .get('albums')
         .remove({ id: req.params.id })
@@ -88,13 +84,13 @@ albums.delete = function (req, res) {
 
     if (result) {        
         console.log('RESULT', JSON.stringify(result))
+        res.send(result)
     } else {
         res.status(500).send('<pre>500 General Error</pre>')    
     }
 }
 
 albums.patch = function (req, res) {
-    console.log(req.method, req.url)
     
     const data = {}
     if (req.body.title) data.title = req.body.title
@@ -118,8 +114,7 @@ albums.patch = function (req, res) {
 }
 
 albums.put = function (req, res) {
-    console.log('GET', req.url)
-
+   
     const data = {
         title: req.body.title,
         artist: req.body.artist,

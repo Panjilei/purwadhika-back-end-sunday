@@ -6,4 +6,5 @@ module.exports = {
   fileParser: require('express-fileupload'),
   notFound: require('./404'),
   db: require('./db'),
+  reqIn: require('./reqIn'),
 }
