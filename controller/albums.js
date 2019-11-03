@@ -9,7 +9,7 @@ albums.getAll = function (req, res) {
     res.send(result)
 }
 
-albums.getById = function (req, res) {
+albums.getById = function (req, res) {g
     console.log('GET', req.url)
 
     const result = req.db
@@ -102,6 +102,30 @@ albums.patch = function (req, res) {
     if (req.body.url) data.url = req.body.url
     if (req.body.image) data.image = req.body.image
     
+
+    const result = req.db
+        .get('albums')
+        .find({ id: req.params.id })
+        .assign(data)
+        .write()
+
+    if (result) {        
+        console.log('RESULT', JSON.stringify(result))
+        res.send(result)
+    } else {
+        res.status(500).send('<pre>500 General Error</pre>')    
+    }
+}
+
+albums.put = function (req, res) {
+    console.log('GET', req.url)
+
+    const data = {
+        title: req.body.title,
+        artist: req.body.artist,
+        url: req.body.url,
+        image: req.body.image
+    }
 
     const result = req.db
         .get('albums')
