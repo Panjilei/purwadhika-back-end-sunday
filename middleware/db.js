@@ -5,7 +5,8 @@ const adapter = new FileSync('db.json')
 const db = low(adapter)
 
 db.defaults({
-    albums: []
+    albums: [],
+    techStacks: []
 }).write()
 
 module.exports = function (req, res, next) {

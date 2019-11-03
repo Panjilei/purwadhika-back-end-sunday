@@ -1,19 +1,19 @@
 const shortid = require('shortid') 
 
-let albums = {}
+let techStacks = {}
 
-albums.getAll = function (req, res) {
-    console.log('GET', req.url)
-    const result = req.db.get('albums').value()
-    console.log(JSON.stringify(result))
+techStacks.getAll = function (req, res) {
+    console.log(req.method, req.url)
+    const result = req.db.get('techStacks').value()
+    console.log('RESULT', JSON.stringify(result))
     res.send(result)
 }
 
-albums.getById = function (req, res) {
+techStacks.getById = function (req, res) {
     console.log('GET', req.url)
 
     const result = req.db
-        .get('albums')
+        .get('techStacks')
         .find({ id: req.params.id })
         .value()
     
@@ -26,19 +26,18 @@ albums.getById = function (req, res) {
     }
 }
 
-albums.insert = function (req, res) {
-    console.log('GET', req.url)
+techStacks.insert = function (req, res) {
+    console.log(req.method, req.url)
 
     const data = {
         id: shortid.generate(),
         title: req.body.title,
-        artist: req.body.artist,
+        description: req.body.description,
         url: req.body.url,
-        image: req.body.image
     }
 
     const result = req.db
-        .get('albums')
+        .get('techStacks')
         .push(data)
         .write()
 
@@ -50,16 +49,17 @@ albums.insert = function (req, res) {
     }
 }
 
-albums.midValidate = function (req, res, next) {
-    let { title, artist, url } = req.body
-    if (!title || !artist || !url) {
+techStacks.midValidate = function (req, res, next) {
+    let { title, description, url } = req.body
+
+    if (!title || !description || !url) {
         res.status(400).send('<pre>400 Bad Request</pre>')
     } else {
         next()
     }
 }
 
-albums.midUpload = function (req, res, next) {
+techStacks.midUpload = function (req, res, next) {
     req.body.image = ''
 
     if (req.files && req.files.image) {
@@ -78,33 +78,32 @@ albums.midUpload = function (req, res, next) {
     }
 }
 
-albums.delete = function (req, res) {
+techStacks.delete = function (req, res) {
     console.log(req.method, req.url)
 
     const result = req.db
-        .get('albums')
+        .get('techStacks')
         .remove({ id: req.params.id })
         .write()
 
     if (result) {        
         console.log('RESULT', JSON.stringify(result))
+        res.send(result)
     } else {
         res.status(500).send('<pre>500 General Error</pre>')    
     }
 }
 
-albums.patch = function (req, res) {
+techStacks.patch = function (req, res) {
     console.log(req.method, req.url)
     
     const data = {}
     if (req.body.title) data.title = req.body.title
-    if (req.body.artist) data.artist = req.body.artist
-    if (req.body.url) data.url = req.body.url
-    if (req.body.image) data.image = req.body.image
-    
+    if (req.body.desription) data.description = req.body.description
+    if (req.body.url) data.url = req.body.url    
 
     const result = req.db
-        .get('albums')
+        .get('techStacks')
         .find({ id: req.params.id })
         .assign(data)
         .write()
@@ -117,18 +116,17 @@ albums.patch = function (req, res) {
     }
 }
 
-albums.put = function (req, res) {
+techStacks.put = function (req, res) {
     console.log('GET', req.url)
 
     const data = {
         title: req.body.title,
         artist: req.body.artist,
         url: req.body.url,
-        image: req.body.image
     }
 
     const result = req.db
-        .get('albums')
+        .get('techStacks')
         .find({ id: req.params.id })
         .assign(data)
         .write()
@@ -141,4 +139,4 @@ albums.put = function (req, res) {
     }
 }
 
-module.exports = albums
+module.exports = techStacks
