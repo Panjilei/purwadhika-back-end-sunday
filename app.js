@@ -4,7 +4,7 @@ const config = require('./config')
 const middleware = require('./middleware')
 const routes = require('./routes')
 
-const port = process.env.port || config.app.port
+const port = process.env.PORT || config.app.port
 
 const app = express()
 
