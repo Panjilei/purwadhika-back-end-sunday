@@ -12,7 +12,9 @@ app.use(middleware.cors())
 app.use(middleware.bodyParser.json())
 app.use(middleware.fileParser())
 app.use(middleware.db)
+app.use(middleware.reqIn)
 
+app.use('/public', express.static('public'))
 app.use('/v1', routes.v1)
 
 app.use(middleware.notFound)
